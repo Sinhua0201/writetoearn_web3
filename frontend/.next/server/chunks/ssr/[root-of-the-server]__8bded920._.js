@@ -259,7 +259,7 @@ var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
 ;
 const config = (0, __TURBOPACK__imported__module__$5b$externals$5d2f40$rainbow$2d$me$2f$rainbowkit__$5b$external$5d$__$2840$rainbow$2d$me$2f$rainbowkit$2c$__esm_import$29$__["getDefaultConfig"])({
     appName: 'Write-to-Earn',
-    projectId: 'wte-demo',
+    projectId: '25018c94ba728a339e935363ac0a1b1f',
     chains: [
         __TURBOPACK__imported__module__$5b$externals$5d2f$wagmi$2f$chains__$5b$external$5d$__$28$wagmi$2f$chains$2c$__esm_import$29$__["localhost"],
         __TURBOPACK__imported__module__$5b$externals$5d2f$wagmi$2f$chains__$5b$external$5d$__$28$wagmi$2f$chains$2c$__esm_import$29$__["mainnet"]

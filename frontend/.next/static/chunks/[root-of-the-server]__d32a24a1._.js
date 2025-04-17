@@ -482,10 +482,11 @@ const CONTRACTS = {
         ]
     },
     nft: {
-        address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        address: "0x5fbdb2315678afecb367f032d93f642f64180aa3",
         abi: [
             "function mint(address to, string memory tokenURI) external returns (uint256)",
-            "function ownerOf(uint256 tokenId) view returns (address)"
+            "function ownerOf(uint256 tokenId) view returns (address)",
+            "function tokenURI(uint256 tokenId) view returns (string)"
         ]
     },
     likeReward: {
@@ -532,13 +533,18 @@ __turbopack_context__.s({
     "default": (()=>Publish)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/jsx-dev-runtime.js [client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/styled-jsx/style.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/react/index.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$wagmi$2f$dist$2f$esm$2f$hooks$2f$useAccount$2e$js__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/wagmi/dist/esm/hooks/useAccount.js [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$ethers$2f$lib$2e$esm$2f$ethers$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__$2a$__as__ethers$3e$__ = __turbopack_context__.i("[project]/node_modules/ethers/lib.esm/ethers.js [client] (ecmascript) <export * as ethers>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$contracts$2e$ts__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/utils/contracts.ts [client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$ipfs$2e$ts__$5b$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/utils/ipfs.ts [client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$heroicons$2f$react$2f$24$2f$outline$2f$esm$2f$CheckCircleIcon$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircleIcon$3e$__ = __turbopack_context__.i("[project]/node_modules/@heroicons/react/24/outline/esm/CheckCircleIcon.js [client] (ecmascript) <export default as CheckCircleIcon>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$heroicons$2f$react$2f$24$2f$outline$2f$esm$2f$ExclamationCircleIcon$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ExclamationCircleIcon$3e$__ = __turbopack_context__.i("[project]/node_modules/@heroicons/react/24/outline/esm/ExclamationCircleIcon.js [client] (ecmascript) <export default as ExclamationCircleIcon>");
 ;
 var _s = __turbopack_context__.k.signature();
+;
+;
 ;
 ;
 ;
@@ -552,6 +558,8 @@ function Publish() {
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [ipfsUrl, setIpfsUrl] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [txHash, setTxHash] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [tokenId, setTokenId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useState"])(null);
     async function handlePublish() {
         setLoading(true);
         try {
@@ -578,86 +586,249 @@ function Publish() {
         setLoading(false);
     }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "max-w-xl mx-auto py-8",
+        className: "jsx-a6413ae834dff260" + " " + "flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-100 px-4",
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                className: "text-2xl font-bold mb-4 text-indigo-700",
-                children: "发布原创文章"
-            }, void 0, false, {
-                fileName: "[project]/pages/publish.tsx",
-                lineNumber: 38,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                className: "w-full mb-2 p-2 border rounded",
-                placeholder: "标题",
-                value: title,
-                onChange: (e)=>setTitle(e.target.value)
-            }, void 0, false, {
-                fileName: "[project]/pages/publish.tsx",
-                lineNumber: 39,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
-                className: "w-full mb-2 p-2 border rounded min-h-[120px]",
-                placeholder: "内容",
-                value: content,
-                onChange: (e)=>setContent(e.target.value)
-            }, void 0, false, {
-                fileName: "[project]/pages/publish.tsx",
-                lineNumber: 45,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                className: "bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700 transition",
-                onClick: handlePublish,
-                disabled: loading,
-                children: loading ? "发布中..." : "发布"
-            }, void 0, false, {
-                fileName: "[project]/pages/publish.tsx",
-                lineNumber: 51,
-                columnNumber: 7
-            }, this),
-            ipfsUrl && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "mt-4 text-green-700",
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "jsx-a6413ae834dff260" + " " + "w-full max-w-xl bg-white rounded-2xl shadow-xl p-8 animate-fade-in",
                 children: [
-                    "已上传IPFS: ",
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                        href: ipfsUrl,
-                        target: "_blank",
-                        rel: "noreferrer",
-                        className: "underline",
-                        children: ipfsUrl
-                    }, void 0, false, {
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        className: "jsx-a6413ae834dff260" + " " + "text-3xl font-extrabold mb-6 text-indigo-800 flex items-center gap-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "jsx-a6413ae834dff260" + " " + "inline-block align-middle mr-1",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$heroicons$2f$react$2f$24$2f$outline$2f$esm$2f$CheckCircleIcon$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircleIcon$3e$__["CheckCircleIcon"], {
+                                    className: "w-7 h-7 text-green-500"
+                                }, void 0, false, {
+                                    fileName: "[project]/pages/publish.tsx",
+                                    lineNumber: 43,
+                                    columnNumber: 60
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/pages/publish.tsx",
+                                lineNumber: 43,
+                                columnNumber: 11
+                            }, this),
+                            " 发布原创文章"
+                        ]
+                    }, void 0, true, {
                         fileName: "[project]/pages/publish.tsx",
-                        lineNumber: 60,
-                        columnNumber: 20
+                        lineNumber: 42,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "jsx-a6413ae834dff260" + " " + "space-y-4",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                placeholder: "请输入文章标题",
+                                value: title,
+                                onChange: (e)=>setTitle(e.target.value),
+                                disabled: loading,
+                                className: "jsx-a6413ae834dff260" + " " + "w-full px-4 py-3 border-2 border-indigo-100 rounded-lg focus:outline-none focus:border-indigo-400 transition text-lg bg-indigo-50"
+                            }, void 0, false, {
+                                fileName: "[project]/pages/publish.tsx",
+                                lineNumber: 46,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
+                                placeholder: "请输入文章内容",
+                                value: content,
+                                onChange: (e)=>setContent(e.target.value),
+                                disabled: loading,
+                                className: "jsx-a6413ae834dff260" + " " + "w-full px-4 py-3 border-2 border-indigo-100 rounded-lg focus:outline-none focus:border-indigo-400 transition min-h-[120px] bg-indigo-50 text-lg"
+                            }, void 0, false, {
+                                fileName: "[project]/pages/publish.tsx",
+                                lineNumber: 53,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: handlePublish,
+                                disabled: loading,
+                                className: "jsx-a6413ae834dff260" + " " + `w-full py-3 rounded-lg text-lg font-semibold transition bg-gradient-to-r from-indigo-500 to-blue-500 text-white shadow-md hover:from-indigo-600 hover:to-blue-600 ${loading ? 'opacity-60 cursor-not-allowed' : ''}`,
+                                children: loading ? "发布中..." : "发布"
+                            }, void 0, false, {
+                                fileName: "[project]/pages/publish.tsx",
+                                lineNumber: 60,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/pages/publish.tsx",
+                        lineNumber: 45,
+                        columnNumber: 9
+                    }, this),
+                    (ipfsUrl || txHash || tokenId || error) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "jsx-a6413ae834dff260" + " " + "mt-8 p-6 rounded-xl bg-indigo-50 border border-indigo-100 shadow flex flex-col gap-4 animate-fade-in",
+                        children: [
+                            ipfsUrl && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "jsx-a6413ae834dff260" + " " + "flex items-center gap-2 text-green-700",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$heroicons$2f$react$2f$24$2f$outline$2f$esm$2f$CheckCircleIcon$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircleIcon$3e$__["CheckCircleIcon"], {
+                                        className: "w-5 h-5 text-green-500"
+                                    }, void 0, false, {
+                                        fileName: "[project]/pages/publish.tsx",
+                                        lineNumber: 73,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "jsx-a6413ae834dff260",
+                                        children: [
+                                            "已上传IPFS: ",
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                                href: ipfsUrl,
+                                                target: "_blank",
+                                                rel: "noreferrer",
+                                                className: "jsx-a6413ae834dff260" + " " + "underline break-all",
+                                                children: ipfsUrl
+                                            }, void 0, false, {
+                                                fileName: "[project]/pages/publish.tsx",
+                                                lineNumber: 74,
+                                                columnNumber: 32
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/pages/publish.tsx",
+                                        lineNumber: 74,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/pages/publish.tsx",
+                                lineNumber: 72,
+                                columnNumber: 15
+                            }, this),
+                            tokenId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "jsx-a6413ae834dff260" + " " + "flex items-center gap-2 text-indigo-800",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "jsx-a6413ae834dff260" + " " + "inline-block align-middle",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$heroicons$2f$react$2f$24$2f$outline$2f$esm$2f$CheckCircleIcon$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircleIcon$3e$__["CheckCircleIcon"], {
+                                            className: "w-6 h-6 text-indigo-500"
+                                        }, void 0, false, {
+                                            fileName: "[project]/pages/publish.tsx",
+                                            lineNumber: 79,
+                                            columnNumber: 61
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/pages/publish.tsx",
+                                        lineNumber: 79,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "jsx-a6413ae834dff260" + " " + "font-bold",
+                                        children: [
+                                            "NFT Token ID: ",
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "jsx-a6413ae834dff260" + " " + "text-indigo-600",
+                                                children: tokenId
+                                            }, void 0, false, {
+                                                fileName: "[project]/pages/publish.tsx",
+                                                lineNumber: 80,
+                                                columnNumber: 59
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/pages/publish.tsx",
+                                        lineNumber: 80,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/pages/publish.tsx",
+                                lineNumber: 78,
+                                columnNumber: 15
+                            }, this),
+                            txHash && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "jsx-a6413ae834dff260" + " " + "flex items-center gap-2 text-blue-700",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "jsx-a6413ae834dff260" + " " + "inline-block align-middle",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$heroicons$2f$react$2f$24$2f$outline$2f$esm$2f$CheckCircleIcon$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CheckCircleIcon$3e$__["CheckCircleIcon"], {
+                                            className: "w-5 h-5 text-blue-500"
+                                        }, void 0, false, {
+                                            fileName: "[project]/pages/publish.tsx",
+                                            lineNumber: 85,
+                                            columnNumber: 61
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/pages/publish.tsx",
+                                        lineNumber: 85,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "jsx-a6413ae834dff260",
+                                        children: [
+                                            "交易哈希: ",
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                                href: `https://sepolia.etherscan.io/tx/${txHash}`,
+                                                target: "_blank",
+                                                rel: "noreferrer",
+                                                className: "jsx-a6413ae834dff260" + " " + "underline break-all",
+                                                children: txHash
+                                            }, void 0, false, {
+                                                fileName: "[project]/pages/publish.tsx",
+                                                lineNumber: 86,
+                                                columnNumber: 29
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/pages/publish.tsx",
+                                        lineNumber: 86,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/pages/publish.tsx",
+                                lineNumber: 84,
+                                columnNumber: 15
+                            }, this),
+                            error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "jsx-a6413ae834dff260" + " " + "flex items-center gap-2 text-red-600",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$heroicons$2f$react$2f$24$2f$outline$2f$esm$2f$ExclamationCircleIcon$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ExclamationCircleIcon$3e$__["ExclamationCircleIcon"], {
+                                        className: "w-5 h-5 text-red-500"
+                                    }, void 0, false, {
+                                        fileName: "[project]/pages/publish.tsx",
+                                        lineNumber: 91,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "jsx-a6413ae834dff260",
+                                        children: error
+                                    }, void 0, false, {
+                                        fileName: "[project]/pages/publish.tsx",
+                                        lineNumber: 92,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/pages/publish.tsx",
+                                lineNumber: 90,
+                                columnNumber: 15
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/pages/publish.tsx",
+                        lineNumber: 70,
+                        columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/pages/publish.tsx",
-                lineNumber: 59,
-                columnNumber: 9
+                lineNumber: 41,
+                columnNumber: 7
             }, this),
-            txHash && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "mt-2 text-blue-700",
-                children: [
-                    "NFT已铸造，交易哈希: ",
-                    txHash
-                ]
-            }, void 0, true, {
-                fileName: "[project]/pages/publish.tsx",
-                lineNumber: 64,
-                columnNumber: 9
-            }, this)
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$client$5d$__$28$ecmascript$29$__["default"], {
+                id: "a6413ae834dff260",
+                children: ".animate-fade-in{animation:.8s cubic-bezier(.4,0,.2,1) fadeIn}@keyframes fadeIn{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}"
+            }, void 0, false, void 0, this)
         ]
     }, void 0, true, {
         fileName: "[project]/pages/publish.tsx",
-        lineNumber: 37,
+        lineNumber: 40,
         columnNumber: 5
     }, this);
 }
-_s(Publish, "AamiFHJeLO0VypIycQ4USLhlmq4=", false, function() {
+_s(Publish, "RCUNnuPcSqJs7/VIGWDpaDB2eQQ=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$wagmi$2f$dist$2f$esm$2f$hooks$2f$useAccount$2e$js__$5b$client$5d$__$28$ecmascript$29$__["useAccount"]
     ];

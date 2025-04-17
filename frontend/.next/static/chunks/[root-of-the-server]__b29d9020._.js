@@ -647,7 +647,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$viem$2f$_esm
 ;
 const config = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$rainbow$2d$me$2f$rainbowkit$2f$dist$2f$index$2e$js__$5b$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["getDefaultConfig"])({
     appName: 'Write-to-Earn',
-    projectId: 'wte-demo',
+    projectId: '25018c94ba728a339e935363ac0a1b1f',
     chains: [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$viem$2f$_esm$2f$chains$2f$definitions$2f$localhost$2e$js__$5b$client$5d$__$28$ecmascript$29$__["localhost"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$viem$2f$_esm$2f$chains$2f$definitions$2f$mainnet$2e$js__$5b$client$5d$__$28$ecmascript$29$__["mainnet"]

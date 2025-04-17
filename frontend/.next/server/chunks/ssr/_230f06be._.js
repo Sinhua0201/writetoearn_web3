@@ -13,21 +13,86 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$
 ;
 ;
 function Articles() {
+    console.log("Articles component rendered");
     const [articles, setArticles] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])([]);
+    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(true);
+    const [fetchError, setFetchError] = (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useState"])(null);
     (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react__$5b$external$5d$__$28$react$2c$__cjs$29$__["useEffect"])(()=>{
+        console.log("useEffect called");
         async function fetchArticles() {
-            // 伪代码：实际应遍历NFT合约tokenId，读取tokenURI和作者
-            // 这里只演示结构，真实项目建议后端或子graph聚合
-            setArticles([
-                {
-                    title: "示例文章",
-                    content: "这是内容...",
-                    ipfsUrl: "https://ipfs.io/ipfs/xxx",
-                    tokenId: 1,
-                    author: "0x123...abc",
-                    likes: 2
+            console.log("fetchArticles called");
+            setLoading(true);
+            setFetchError(null);
+            try {
+                if (!window.ethereum) {
+                    setFetchError("未检测到钱包，请安装并连接钱包");
+                    setArticles([]);
+                    setLoading(false);
+                    return;
                 }
-            ]);
+                await window.ethereum.request({
+                    method: "eth_requestAccounts"
+                });
+                const { ethers } = await __turbopack_context__.r("[externals]/ethers [external] (ethers, cjs, async loader)")(__turbopack_context__.i);
+                const { getContract } = await __turbopack_context__.r("[project]/utils/contracts.ts [ssr] (ecmascript, async loader)")(__turbopack_context__.i);
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const nft = getContract("nft", provider);
+                // 只遍历前2个tokenId，调试用
+                const articles = [];
+                for(let i = 0; i <= 2; i++){
+                    console.log("for循环执行，当前tokenId:", i);
+                    try {
+                        const tokenId = i;
+                        const tokenURI = await nft.tokenURI(tokenId);
+                        const owner = await nft.ownerOf(tokenId);
+                        console.log(`tokenId=${tokenId}, tokenURI=${tokenURI}, owner=${owner}`);
+                        // 解析 IPFS 内容
+                        const ipfsUrl = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/");
+                        let meta = {
+                            title: '',
+                            content: ''
+                        };
+                        try {
+                            const controller = new AbortController();
+                            const timeoutId = setTimeout(()=>controller.abort(), 5000);
+                            const res = await fetch(ipfsUrl, {
+                                signal: controller.signal
+                            });
+                            clearTimeout(timeoutId);
+                            meta = await res.json();
+                        } catch (e) {
+                            console.warn(`IPFS 解析失败: ${ipfsUrl}`, e);
+                            meta = {
+                                title: '（IPFS同步中）',
+                                content: '请稍后刷新，或检查IPFS网关'
+                            };
+                        }
+                        // 点赞数
+                        const likeReward = getContract("likeReward", provider);
+                        let likes = 0;
+                        try {
+                            likes = (await likeReward.likes(tokenId)).toNumber();
+                        } catch  {}
+                        articles.push({
+                            title: meta.title,
+                            content: meta.content,
+                            ipfsUrl,
+                            tokenId: Number(tokenId),
+                            author: owner,
+                            likes
+                        });
+                    } catch (e) {
+                        console.error("tokenId", i, "异常内容：", e && (e.message || e));
+                    }
+                }
+                console.log("最终 articles: ", articles);
+                setArticles(articles);
+            } catch (err) {
+                console.error("fetchArticles error", err);
+                setFetchError("读取链上文章失败：" + (err?.message || err));
+                setArticles([]);
+            }
+            setLoading(false);
         }
         fetchArticles();
     }, []);
@@ -39,8 +104,32 @@ function Articles() {
                 children: "文章列表"
             }, void 0, false, {
                 fileName: "[project]/pages/articles.tsx",
-                lineNumber: 35,
+                lineNumber: 91,
                 columnNumber: 7
+            }, this),
+            loading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                className: "text-gray-500 text-center py-8",
+                children: "正在加载文章..."
+            }, void 0, false, {
+                fileName: "[project]/pages/articles.tsx",
+                lineNumber: 92,
+                columnNumber: 19
+            }, this),
+            fetchError && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                className: "text-red-500 text-center py-8",
+                children: fetchError
+            }, void 0, false, {
+                fileName: "[project]/pages/articles.tsx",
+                lineNumber: 93,
+                columnNumber: 22
+            }, this),
+            !loading && !fetchError && articles.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
+                className: "text-gray-400 text-center py-12",
+                children: "暂无文章或文章正在同步中，请稍后刷新"
+            }, void 0, false, {
+                fileName: "[project]/pages/articles.tsx",
+                lineNumber: 95,
+                columnNumber: 9
             }, this),
             articles.map((a)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
                     className: "bg-white rounded shadow p-4 mb-4",
@@ -50,7 +139,7 @@ function Articles() {
                             children: a.title
                         }, void 0, false, {
                             fileName: "[project]/pages/articles.tsx",
-                            lineNumber: 38,
+                            lineNumber: 99,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("p", {
@@ -58,7 +147,7 @@ function Articles() {
                             children: a.content
                         }, void 0, false, {
                             fileName: "[project]/pages/articles.tsx",
-                            lineNumber: 39,
+                            lineNumber: 100,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("a", {
@@ -69,7 +158,7 @@ function Articles() {
                             children: "IPFS"
                         }, void 0, false, {
                             fileName: "[project]/pages/articles.tsx",
-                            lineNumber: 40,
+                            lineNumber: 101,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("div", {
@@ -83,7 +172,7 @@ function Articles() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/pages/articles.tsx",
-                                    lineNumber: 42,
+                                    lineNumber: 103,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("span", {
@@ -94,7 +183,7 @@ function Articles() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/pages/articles.tsx",
-                                    lineNumber: 43,
+                                    lineNumber: 104,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$externals$5d2f$react$2f$jsx$2d$dev$2d$runtime__$5b$external$5d$__$28$react$2f$jsx$2d$dev$2d$runtime$2c$__cjs$29$__["jsxDEV"])("button", {
@@ -116,25 +205,25 @@ function Articles() {
                                     children: "点赞"
                                 }, void 0, false, {
                                     fileName: "[project]/pages/articles.tsx",
-                                    lineNumber: 44,
+                                    lineNumber: 105,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/pages/articles.tsx",
-                            lineNumber: 41,
+                            lineNumber: 102,
                             columnNumber: 11
                         }, this)
                     ]
                 }, a.tokenId, true, {
                     fileName: "[project]/pages/articles.tsx",
-                    lineNumber: 37,
+                    lineNumber: 98,
                     columnNumber: 9
                 }, this))
         ]
     }, void 0, true, {
         fileName: "[project]/pages/articles.tsx",
-        lineNumber: 34,
+        lineNumber: 90,
         columnNumber: 5
     }, this);
 }

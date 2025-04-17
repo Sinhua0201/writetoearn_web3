@@ -6,7 +6,12 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract ContentNFT is ERC721URIStorage, Ownable {
     uint256 public nextTokenId;
-    constructor() ERC721("WriteToEarnContent", "WTEC") {}
+
+    // 这里需要传入 initialOwner，适配 OZ v5.x
+    constructor(address initialOwner)
+        ERC721("WriteToEarnContent", "WTEC")
+        Ownable(initialOwner)
+    {}
 
     function mint(address to, string memory tokenURI) external onlyOwner returns (uint256) {
         uint256 tokenId = nextTokenId++;

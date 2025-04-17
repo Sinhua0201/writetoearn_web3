@@ -6,7 +6,7 @@ import { mainnet, localhost } from 'wagmi/chains';
 
 const config = getDefaultConfig({
   appName: 'Write-to-Earn',
-  projectId: 'wte-demo',
+  projectId: '25018c94ba728a339e935363ac0a1b1f',
   chains: [localhost, mainnet],
 });
 
